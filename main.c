@@ -2,12 +2,20 @@
 #include <stdlib.h>
 #include <math.h>
 
-double numero;
+void imprimirPassoDivisao(int numero, int base, int resto) {
+    printf("%d %% %d = %d (resto), %d / %d = %d (próximo valor)\n", 
+           numero * base + resto, base, resto, numero * base + resto, base, numero);
+}
 
 void base10p2() {
     double num;
     printf("Digite um número decimal: ");
     scanf("%lf", &num);
+
+    if (num == 0) {
+        printf("O número binário é: 0000\n");
+        return;
+    }
 
     int sinal = (num < 0) ? -1 : 1;
     num = fabs(num);
@@ -15,8 +23,11 @@ void base10p2() {
     double fracionario = num - inteiro;
     int *binario_inteiro = (int *) malloc(sizeof(int) * 32);
     int i = 0;
+
+    printf("Convertendo a parte inteira para binário:\n");
     while (inteiro > 0) {
         binario_inteiro[i] = inteiro % 2;
+        imprimirPassoDivisao(inteiro, 2, binario_inteiro[i]);
         inteiro /= 2;
         i++;
     }
@@ -29,6 +40,8 @@ void base10p2() {
 
     char *binario_fracionario = (char *) malloc(sizeof(char) * 32);
     int k = 0;
+
+    printf("Convertendo a parte fracionária para binário:\n");
     while (fracionario > 0 && k < 32) {
         fracionario *= 2;
         if (fracionario >= 1) {
@@ -37,6 +50,7 @@ void base10p2() {
         } else {
             binario_fracionario[k] = '0';
         }
+        printf("Multiplicando a parte fracionária por 2: %.15lf (parte fracionária atual)\n", fracionario);
         k++;
     }
 
@@ -62,14 +76,22 @@ void base10p8() {
     printf("Digite um número decimal: ");
     scanf("%lf", &num);
 
+    if (num == 0) {
+        printf("O número octal é: 0000\n");
+        return;
+    }
+
     int sinal = (num < 0) ? -1 : 1;
     num = fabs(num);
     int inteiro = (int) num;
     double fracionario = num - inteiro;
     int *octal_inteiro = (int *) malloc(sizeof(int) * 32);
     int i = 0;
+
+    printf("Convertendo a parte inteira para octal:\n");
     while (inteiro > 0) {
         octal_inteiro[i] = inteiro % 8;
+        imprimirPassoDivisao(inteiro, 8, octal_inteiro[i]);
         inteiro /= 8;
         i++;
     }
@@ -82,6 +104,8 @@ void base10p8() {
 
     char *octal_fracionario = (char *) malloc(sizeof(char) * 32);
     int k = 0;
+
+    printf("Convertendo a parte fracionária para octal:\n");
     while (fracionario > 0 && k < 32) {
         fracionario *= 8;
         if (fracionario >= 1) {
@@ -90,6 +114,7 @@ void base10p8() {
         } else {
             octal_fracionario[k] = '0';
         }
+        printf("Multiplicando a parte fracionária por 8: %.15lf (parte fracionária atual)\n", fracionario);
         k++;
     }
 
@@ -115,12 +140,19 @@ void base10p16() {
     printf("Digite um número decimal: ");
     scanf("%lf", &num);
 
+    if (num == 0) {
+        printf("O número hexadecimal é: 0000\n");
+        return;
+    }
+
     int sinal = (num < 0) ? -1 : 1;
     num = fabs(num);
     int inteiro = (int) num;
     double fracionario = num - inteiro;
     char *hex_inteiro = (char *) malloc(sizeof(char) * 32);
     int i = 0;
+
+    printf("Convertendo a parte inteira para hexa:\n");
     while (inteiro > 0) {
         int resto = inteiro % 16;
         if (resto < 10) {
@@ -128,6 +160,7 @@ void base10p16() {
         } else {
             hex_inteiro[i] = (char)(resto - 10) + 'A';
         }
+        imprimirPassoDivisao(inteiro, 16, resto);
         inteiro /= 16;
         i++;
     }
@@ -140,6 +173,8 @@ void base10p16() {
 
     char *hex_fracionario = (char *) malloc(sizeof(char) * 32);
     int k = 0;
+
+    printf("Convertendo a parte fracionária para hexa:\n");
     while (fracionario > 0 && k < 32) {
         fracionario *= 16;
         int resto = (int)fracionario;
@@ -149,6 +184,7 @@ void base10p16() {
             hex_fracionario[k] = (char)(resto - 10) + 'A';
         }
         fracionario -= resto;
+        printf("Multiplicando a parte fracionária por 16: %.15lf (parte fracionária atual)\n", fracionario);
         k++;
     }
 
@@ -192,7 +228,7 @@ int main(void) {
         } else if (escolha == 3) {
             base10p16();
         } else if (escolha == 0) {
-            printf("Saindo...\n");
+            printf("Saindo..\n");
         } else {
             printf("Opção inválida. Tente novamente.\n");
         }
