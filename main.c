@@ -1,3 +1,22 @@
+/*Kauane Micaelle Alves Barbosa de melo - kmabm@cesar.school
+
+Construa uma calculadora programador didática (didática significa que deve ser
+mostrado os passos na tela das operações efetuadas),  implementada na linguagem
+C, que tenha as seguintes conversões 1 - de base 10 para: a)base 2, b) base 8,
+c) base16,
+d) código BCD Codificação binária decimal
+2 - de base 10  para base com sinal com 16 bits, (complemento a 2)
+3 - converter real em decimal para float e double, mostrando os respectivos bits
+de sinal , expoente, expoente com viés e fração
+
+Atualizações: 
+Adicionado a função do Binario, Octal e Hexa 27/08/2024
+Adicionado a função BCD - 30/08/2024 11:42
+Adicionado a função do Complemento 2 - 30/08/2024 19:33
+
+    */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -205,12 +224,36 @@ void base10p16() {
     free(hex_fracionario);
 }
 
+void base10pComp2(){
+        int n;
+        printf("Digite um número: ");
+        scanf("%d", &n);
+
+        if (n == 0) {
+            printf("Número em complemento a 2 (16 bits): 0000 0000 0000 0000\n");
+            return;
+        }
+        unsigned short num = (unsigned short) n;
+
+        if (n < 0) {
+            num = ~(-n - 1);  // inverte os bits usando o operador de negação btw
+        }
+
+        printf("Número em complemento a 2 (16 bits): ");
+        for (int i = 15; i >= 0; i--) {
+            printf("%d", (num >> i) & 1);
+        }
+        printf("\n");
+    }
+
 int menu() {
     int escolha;
     printf("Menu:\n");
     printf("1. Base 10 para Base 2\n");
     printf("2. Base 10 para Base 8\n");
     printf("3. Base 10 para Base 16\n");
+    printf("4. Base 10 para BCD\n");
+    printf("5. Complemento a 2 com 16 bits\n");
     printf("0. Sair\n");
     printf("Digite sua opção: ");
     scanf("%d", &escolha);
@@ -226,7 +269,11 @@ int main(void) {
         } else if (escolha == 2) {
             base10p8();
         } else if (escolha == 3) {
-            base10p16();
+            base10p16();        
+        }else if(escolha == 4){
+            base10pBCD();
+        } else if (escolha == 5){
+            base10pComp2();
         } else if (escolha == 0) {
             printf("Saindo..\n");
         } else {
