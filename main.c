@@ -12,7 +12,8 @@ de sinal , expoente, expoente com viés e fração
 Atualizações: 
 Adicionado a função do Binario, Octal e Hexa 27/08/2024
 Adicionado a função BCD - 30/08/2024 11:42
-Adicionado a função do Complemento 2 - 30/08/2024 19:33
+Adicionado a função do Complemento 2 - 30/08/2024 19:58
+Adicionado a função Float e Double - 
 
     */
 
@@ -20,6 +21,7 @@ Adicionado a função do Complemento 2 - 30/08/2024 19:33
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 void imprimirPassoDivisao(int numero, int base, int resto) {
     printf("%d %% %d = %d (resto), %d / %d = %d (próximo valor)\n", 
@@ -223,7 +225,55 @@ void base10p16() {
     free(hex_inteiro);
     free(hex_fracionario);
 }
+void base10pBCD(){
+    double num;
+        printf("Digite um número decimal: ");
+        scanf("%lf", &num);
 
+        if (num == 0) {
+            printf("O número BCD é: 0000\n");
+            return;
+        }
+
+        int sinal = (num < 0) ? -1 : 1;
+        num = fabs(num);
+        int inteiro = (int) num;
+
+        char *bcd = (char *) malloc(sizeof(char) * 32);
+        int i = 0;
+
+        printf("Convertendo a parte inteira %d para BCD:\n", inteiro);
+        while (inteiro > 0) {
+            int digito = inteiro % 10;
+            printf("Dígito: %d -> BCD: ", digito);
+            for (int j = 3; j >= 0; j--) {
+                bcd[i + j] = (digito % 2) ? '1' : '0';
+                printf("%c", bcd[i + j]);
+                digito /= 2;
+            }
+            printf("\n");
+            i += 4;
+            inteiro /= 10;
+        }
+
+        bcd[i] = '\0';
+
+        for (int j = 0; j < i / 2; j++) {
+            char temp = bcd[j];
+            bcd[j] = bcd[i - j - 1];
+            bcd[i - j - 1] = temp;
+        }
+
+        printf("O número BCD é: ");
+        if (sinal == -1) {
+            printf("-");
+        }
+        for (int j = 0; j < i; j++) {
+            printf("%c", bcd[j]);
+        }
+        printf("\n");
+        free(bcd);
+}
 void base10pComp2(){
         int n;
         printf("Digite um número: ");
@@ -245,6 +295,12 @@ void base10pComp2(){
         }
         printf("\n");
     }
+void paraFloat(){
+   
+}
+void paraDouble(){
+
+}
 
 int menu() {
     int escolha;
@@ -254,6 +310,8 @@ int menu() {
     printf("3. Base 10 para Base 16\n");
     printf("4. Base 10 para BCD\n");
     printf("5. Complemento a 2 com 16 bits\n");
+    printf("6. Converter para float\n");
+    printf("7. Converter para double\n");
     printf("0. Sair\n");
     printf("Digite sua opção: ");
     scanf("%d", &escolha);
@@ -274,6 +332,10 @@ int main(void) {
             base10pBCD();
         } else if (escolha == 5){
             base10pComp2();
+        } else if (escolha == 6) {
+            paraFloat();
+        } else if (escolha == 7){
+            paraDouble();
         } else if (escolha == 0) {
             printf("Saindo..\n");
         } else {
