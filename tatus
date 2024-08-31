@@ -1,0 +1,52 @@
+[1mdiff --git a/README.md b/README.md[m
+[1mdeleted file mode 100644[m
+[1mindex f9b2647..0000000[m
+[1m--- a/README.md[m
+[1m+++ /dev/null[m
+[36m@@ -1,15 +0,0 @@[m
+[31m-# 🧮: Calculadora [m
+[31m-## Descrição[m
+[31m-Está é uma calculadora didática implementada na linguagem C. A calculadora tem como o seu principal objeto ensinar conversões númericas.[m
+[31m-[m
+[31m-## Funcionalidades[m
+[31m-- `Funcionalidade 1`:  Conversão de decimal para Binário,Octal, Hexadecimal , Código BCD.[m
+[31m-- `Funcionalidade 2`: Conversão de decimal para complemento 2[m
+[31m-- `Funcionalidade 3`: Conversão de número reais para float e double[m
+[31m-[m
+[31m-## Como usar ?[m
+[31m- 1. Compile o código fonte utilizando um compilador C.[m
+[31m- 2. Execute o programa.[m
+[31m- 3. Siga as instruções.[m
+[31m-[m
+[31m-[m
+[1mdiff --git a/main.c b/calculadora.c[m
+[1msimilarity index 99%[m
+[1mrename from main.c[m
+[1mrename to calculadora.c[m
+[1mindex c3713c8..c23ea08 100644[m
+[1m--- a/main.c[m
+[1m+++ b/calculadora.c[m
+[36m@@ -324,7 +324,7 @@[m [mvoid paraFloat(double num) {[m
+     printf("%u",expoente - 127);[m
+     printf(" + 127 = %u \n", expoente - 127);[m
+     printBinario(expoente, 8);[m
+[31m-[m
+[32m+[m[32m    //printf("teste");[m
+ [m
+     printf("\nFração: ");[m
+     printBinario(fracao, 23);[m
+[36m@@ -366,6 +366,7 @@[m [mvoid paraDouble(double num) {[m
+     printf("Representação: \n");[m
+     printBinario(doubleUnion.bits, 64);[m
+     printf("\n\n");[m
+[32m+[m[32m    //printf("teste")[m
+ }[m
+ [m
+ int menu() {[m
+[36m@@ -416,4 +417,4 @@[m [mint main(void) {[m
+     } while (escolha != 0);[m
+ [m
+     return 0;[m
+[31m-}[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
