@@ -13,7 +13,7 @@ Atualizações:
 Adicionado a função do Binario, Octal e Hexa 27/08/2024
 Adicionado a função BCD - 30/08/2024 11:42
 Adicionado a função do Complemento 2 - 30/08/2024 19:58
-Adicionado a função Float e Double - 
+Adicionado a função Float e Double -  30/08/2024 22:39
 
     */
 
@@ -276,7 +276,7 @@ void base10pBCD(){
 }
 void base10pComp2(){
         int n;
-        printf("Digite um número: ");
+        printf("Digite um  número inteiro: ");
         scanf("%d", &n);
 
         if (n == 0) {
@@ -287,6 +287,7 @@ void base10pComp2(){
 
         if (n < 0) {
             num = ~(-n - 1);  // inverte os bits usando o operador de negação btw
+              //printf("oioi");
         }
 
         printf("Número em complemento a 2 (16 bits): ");
@@ -295,11 +296,76 @@ void base10pComp2(){
         }
         printf("\n");
     }
-void paraFloat(){
-   
+void printBinario(unsigned long long valor, int bits) {
+    for (int i = bits - 1; i >= 0; i--) {
+        printf("%llu", (valor >> i) & 1);
+    }
 }
-void paraDouble(){
 
+void paraFloat(double num) {
+    union {
+        float f;
+        unsigned int bits;
+    } floatUnion;
+
+    floatUnion.f = (float)num;
+
+    unsigned int sinal = (floatUnion.bits >> 31) & 1; 
+    unsigned int expoente = (floatUnion.bits >> 23) & 0xFF;
+    unsigned int fracao = floatUnion.bits & 0x7FFFFF;
+
+    printf("Real convertido:\n");
+    printf("Float: %f\n", floatUnion.f);
+    printf("Sinal: ");
+    printBinario(sinal, 1);
+    printf("\n");
+
+    printf("Expoente: %u \n ", expoente);
+    printf("%u",expoente - 127);
+    printf(" + 127 = %u \n", expoente - 127);
+    printBinario(expoente, 8);
+
+
+    printf("\nFração: ");
+    printBinario(fracao, 23);
+    printf("\n");
+
+    printf("Representação: \n");
+    printBinario(floatUnion.bits, 32);
+    printf("\n\n");
+}
+
+void paraDouble(double num) {
+    union {
+        double d;
+        unsigned long long bits;
+    } doubleUnion;
+
+    doubleUnion.d = num;
+
+    unsigned long long sinal = (doubleUnion.bits >> 63) & 1; 
+    unsigned long long expoente = (doubleUnion.bits >> 52) & 0x7FF;
+    unsigned long long fracao = doubleUnion.bits & 0xFFFFFFFFFFFFF;
+
+    printf("Real convertido:\n");
+    printf("Double: %lf\n", doubleUnion.d);
+
+    printf("Sinal: ");
+    printBinario(sinal, 1);
+    printf("\n");
+
+    printf("Expoente: %llu \n ", expoente);
+    printf("%llu",expoente - 1023);
+    printf(" + 1023 = %lld \n", expoente - 1023);
+    printBinario(expoente, 11);
+
+    printf("\nFração: ");
+    printBinario(fracao, 52);
+    printf("\n");
+
+    printf("Representação: \n");
+    printBinario(doubleUnion.bits, 64);
+    printf("\n\n");
 }
 
 int menu() {
@@ -320,6 +386,8 @@ int menu() {
 
 int main(void) {
     int escolha;
+    double num;
+
     do {
         escolha = menu();
         if (escolha == 1) {
@@ -328,14 +396,18 @@ int main(void) {
             base10p8();
         } else if (escolha == 3) {
             base10p16();        
-        }else if(escolha == 4){
+        } else if (escolha == 4) {
             base10pBCD();
-        } else if (escolha == 5){
+        } else if (escolha == 5) {
             base10pComp2();
         } else if (escolha == 6) {
-            paraFloat();
-        } else if (escolha == 7){
-            paraDouble();
+            printf("Digite um número real: ");
+            scanf("%lf", &num);
+            paraFloat(num);
+        } else if (escolha == 7) {
+            printf("Digite um número real: ");
+            scanf("%lf", &num);
+            paraDouble(num);
         } else if (escolha == 0) {
             printf("Saindo..\n");
         } else {
